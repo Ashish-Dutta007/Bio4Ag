@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Biodiversity4Agriculture – Crop Productivity</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Header (same as home) -->
+  <div class="header-top">
+    <div class="logo-left">Bio4Ag Logo</div>
+    <div class="header-title">
+      <h1>
+        <span class="green-text">Bio</span>diversity
+        <span class="green-text">4Ag</span>riculture:
+        lessons from the Centre for Sustainable Cropping
+      </h1>
+    </div>
+    <div class="logo-right">
+      <a href="https://sefari.scot/" target="_blank">
+        <img src="images/sefari_logo.png" alt="Sefari Logo" style="max-width:100%; max-height:100%;">
+      </a>
+    </div>
+  </div>
+
+  <!-- Navigation Bar (same as home) -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="toolbox.html" class="nav-link">Toolbox</a>
+      <a href="resources.html" class="nav-link">Resources</a>
+      <a href="datasets.html" class="nav-link">Datasets</a>
+      <a href="contact.html" class="nav-link">Contact Us</a>
+    </div>
+  </nav>
+
+  <!-- Main content -->
+  <div class="content-area">
+    <!-- Left banner image -->
+    <div class="left-img">
+      <!-- Example banner or crop-specific image -->
+      <img src="images/soil.png" alt="Crop Productivity Banner">
+    </div>
+
+    <!-- Right text content -->
+    <div class="right-info">
+      <h2>Soil Health  &amp; Fertility</h2>
+      <ul>
+        <li>Management goal and justification/background</li>
+        <li>Measures/interventions applied at CSC</li>
+        <li>Indicators monitored</li>
+      </ul>
+
+      <!-- Dashboard section with dropdown filters -->
+      <div class="dashboard-section">
+        <h3>CSC Data Dashboard</h3>
+        <label for="cropSelect">Crop:</label>
+        <select id="cropSelect">
+          <option value="all">All</option>
+          <option value="wheat">Wheat</option>
+          <option value="barley">Barley</option>
+          <option value="potato">Potato</option>
+        </select>
+
+        <label for="indicatorSelect">Indicator:</label>
+        <select id="indicatorSelect">
+          <option value="yield">Yield</option>
+          <option value="nutrition">Nutrition</option>
+        </select>
+
+        <label for="yearSelect">Year:</label>
+        <select id="yearSelect">
+          <option value="all">All</option>
+          <option value="2022">2025</option>
+          <option value="2022">2024</option>
+          <option value="2023">2023</option>
+          <option value="2022">2022</option>
+        </select>
+
+        <label for="fieldSelect">Field:</label>
+        <select id="fieldSelect">
+          <option value="all">All</option>
+          <option value="field1">Field 1</option>
+          <option value="field2">Field 2</option>
+        </select>
+
+        <!-- Placeholder chart or data visualization -->
+        <div style="margin-top:1em; padding:1em; background:#fff; border:1px solid #ccc;">
+          <em>[Placeholder for chart showing yield vs. year, etc.]</em>
+        </div>
+      </div>
+
+      <!-- Projects/References list -->
+      <div class="projects">
+        <h4>Relevant Projects &amp; Publications</h4>
+        <ul>
+          <li><strong>Crop Modelling Work</strong> – 
+            <a href="https://example.com/project1" target="_blank">Project Link</a>
+          </li>
+          <li><strong>Legume Projects</strong> – 
+            <a href="https://example.com/legume" target="_blank">Project Link</a>
+          </li>
+          <li>
+            <a href="https://example.com/research-paper" target="_blank">Research Paper</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

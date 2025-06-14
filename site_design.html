@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Bio4Ag Toolbox – Interactive Network</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Basic Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; background: #fff; color: #333; }
+    
+    /* Header */
+    .header-top {
+      background: #fff; padding: 10px 20px; border-bottom: 1px solid #ccc;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .logo-left, .logo-right { width: 120px; height: 50px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc; }
+    .header-title { flex: 1; text-align: center; margin: 0 15px; }
+    .header-title h1 { font-size: 1.2rem; }
+    .green-text { color: #2e7d32; font-weight: bold; }
+    .logo-right img { max-width: 100%; max-height: 100%; }
+    
+    /* Navigation Bar */
+    .nav-bar {
+      background: #4caf50; padding: 5px 0; text-align: center;
+    }
+    .nav-bar a {
+      background: linear-gradient(#66bb6a, #388e3c); color: #fff;
+      text-decoration: none; padding: 8px 16px; border-radius: 4px;
+      margin: 0 5px; font-weight: bold; transition: background 0.3s ease;
+    }
+    .nav-bar a:hover { background: linear-gradient(#81c784, #2e7d32); }
+    
+    /* Main Content Layout: 3 Columns */
+    .content-wrapper {
+      display: flex; height: calc(100vh - 120px); /* adjust based on header height */
+    }
+    .sidebar-left { width: 220px; background: #f5f5f5; padding: 15px; overflow-y: auto; }
+    .sidebar-left h2 { font-size: 1.1em; margin-bottom: 10px; }
+    .sidebar-left ul { list-style: none; }
+    .sidebar-left li { margin: 8px 0; }
+    .sidebar-left label { font-size: 0.95em; cursor: pointer; }
+    .sidebar-left input[type="checkbox"] { margin-right: 8px; transform: scale(1.1); }
+    
+    .network-panel { flex: 1; position: relative; background: #fff; display: flex; align-items: center; justify-content: center; }
+    svg.network-diagram { width: 100%; height: 100%; }
+    
+    .info-panel { width: 300px; background: #eef7ec; padding: 15px; overflow-y: auto; border-left: 3px solid #c5e1a5; }
+    .info-panel h2 { font-size: 1.2em; margin-bottom: 10px; color: #2e7d32; }
+    .info-panel p { font-size: 0.9em; line-height: 1.4; margin-bottom: 10px; }
+    
+    /* Overall Impact Summary */
+    .system-impact {
+      position: absolute; bottom: 10px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255,255,255,0.9); border: 1px solid #ccc;
+      padding: 8px 12px; border-radius: 4px; font-size: 0.85em;
+    }
+    .system-impact h3 { margin-bottom: 5px; color: #2e7d32; }
+    
+    /* SVG Network Diagram Styles */
+    .node rect { rx: 6; ry: 6; stroke-width: 2; }
+    .node.management rect { fill: #c5e1a5; stroke: #2e7d32; }
+    .node.system rect { fill: #fff; stroke: #333; }
+    .node text { font-size: 0.8em; fill: #000; }
+    .score-indicator { stroke: none; }
+    .link { stroke: #888; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+    .link.positive { stroke-dasharray: 0; }
+    .link.negative { stroke-dasharray: 5 3; }
+    .node.highlight > rect { stroke: #ff9800; stroke-width: 4; }
+    .node.highlight-secondary > rect { stroke: #ffc107; stroke-width: 3; }
+    .link.highlight { stroke: #ff9800; stroke-width: 3; }
+    
+    /* Responsive */
+    @media (max-width: 900px) {
+      .content-wrapper { flex-direction: column; height: auto; }
+      .sidebar-left, .info-panel { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header with Logos and Title -->
+  <div class="header-top">
+    <div class="logo-left">Bio4Ag Logo</div>
+    <div class="header-title">
+      <h1>
+        <span class="green-text">Bio</span>diversity
+        <span class="green-text">4Ag</span>riculture: lessons from the Centre for Sustainable Cropping
+      </h1>
+    </div>
+    <div class="logo-right">
+      <a href="https://sefari.scot/" target="_blank">
+        <img src="images/sefari_logo.png" alt="Sefari Logo">
+      </a>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="nav-bar">
+    <div class="nav-container">
+      <a href="index.html">Home</a>
+      <a href="toolbox.html">Toolbox</a>
+      <a href="resources.html">Resources</a>
+      <a href="datasets.html">Datasets</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+  </nav>
+
+  <!-- Main Content: 3 Columns -->
+  <div class="content-wrapper">
+    <!-- Left Sidebar: Management Options -->
+    <div class="sidebar-left">
+      <h2>Management Options</h2>
+      <ul>
+        <li><label><input type="checkbox" value="Organic amendments">Organic amendments (compost, FYM)</label></li>
+        <li><label><input type="checkbox" value="Internally generated inputs">Internally generated inputs (exudates/residues)</label></li>
+        <li><label><input type="checkbox" value="Occasional tillage">Occasional tillage / direct drill</label></li>
+        <li><label><input type="checkbox" value="Cover crops (soil health)">Cover crops (soil health &amp; nutrition)</label></li>
+        <li><label><input type="checkbox" value="Cover crops (biodiversity)">Cover crops (biodiversity)</label></li>
+        <li><label><input type="checkbox" value="Biofortification">Biofortification</label></li>
+        <li><label><input type="checkbox" value="IPDM">Integrated Pest &amp; Disease Management (IPDM)</label></li>
+        <li><label><input type="checkbox" value="Cultural control">Cultural control (weeds/pests)</label></li>
+        <li><label><input type="checkbox" value="Semi-natural habitat">Semi-natural habitat &amp; buffers</label></li>
+        <li><label><input type="checkbox" value="Nutrient budgeting">Nutrient budgeting (variable rate/timing)</label></li>
+        <li><label><input type="checkbox" value="Diversified cropping">Diversified cropping (with legumes)</label></li>
+      </ul>
+    </div>
+
+    <!-- Center Panel: Interactive Network Diagram -->
+    <div class="network-panel">
+      <svg class="network-diagram" viewBox="0 0 800 600">
+        <!-- Arrow marker definition -->
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#888" />
+          </marker>
+        </defs>
+        <!-- Example Management Nodes (filled boxes) -->
+        <g class="node management" id="node-Organic-amendments" data-name="Organic amendments">
+          <rect x="30" y="250" width="140" height="30" />
+          <text x="35" y="270">Organic amendments</text>
+          <circle class="score-indicator" cx="170" cy="265" r="5" fill="#ccc" />
+        </g>
+        <g class="node management" id="node-Occasional-tillage" data-name="Occasional tillage">
+          <rect x="30" y="180" width="140" height="30" />
+          <text x="35" y="200">Occasional tillage</text>
+          <circle class="score-indicator" cx="170" cy="195" r="5" fill="#ccc" />
+        </g>
+        <g class="node management" id="node-Cover-crops-soil-health" data-name="Cover crops (soil health)">
+          <rect x="30" y="110" width="160" height="30" />
+          <text x="35" y="130">Cover crops (soil health)</text>
+          <circle class="score-indicator" cx="195" cy="125" r="5" fill="#ccc" />
+        </g>
+        <g class="node management" id="node-Cover-crops-biodiversity" data-name="Cover crops (biodiversity)">
+          <rect x="30" y="40" width="160" height="30" />
+          <text x="35" y="60">Cover crops (biodiversity)</text>
+          <circle class="score-indicator" cx="195" cy="55" r="5" fill="#ccc" />
+        </g>
+        <!-- Example System Nodes (open boxes) -->
+        <g class="node system" id="node-Soil-OM" data-name="Soil organic matter">
+          <rect x="230" y="400" width="100" height="30" />
+          <text x="235" y="420">Soil OM</text>
+          <circle class="score-indicator" cx="325" cy="415" r="5" fill="#ccc" />
+        </g>
+        <g class="node system" id="node-Crop-yield" data-name="Crop yield">
+          <rect x="680" y="390" width="80" height="30" />
+          <text x="685" y="410">Crop yield</text>
+          <circle class="score-indicator" cx="755" cy="405" r="5" fill="#ccc" />
+        </g>
+        <!-- Example Links -->
+        <line class="link positive" id="link-Organic-amendments-Soil-OM" x1="170" y1="265" x2="230" y2="415" />
+        <line class="link positive" id="link-Cover-crops-soil-health-Soil-OM" x1="190" y1="125" x2="230" y2="415" />
+        <line class="link positive" id="link-Occasional-tillage-Soil-OM" x1="170" y1="195" x2="230" y2="415" />
+        <line class="link positive" id="link-Cover-crops-biodiversity-Crop-yield" x1="190" y1="55" x2="680" y2="410" />
+      </svg>
+      <!-- Overall Impact Summary -->
+      <div class="system-impact">
+        <h3>Overall Impact</h3>
+        <div class="metric"><span class="label">GHG Emissions:</span> <span class="value">Neutral</span></div>
+        <div class="metric"><span class="label">Leaching:</span> <span class="value">Neutral</span></div>
+        <div class="metric"><span class="label">Carbon Footprint:</span> <span class="value">Neutral</span></div>
+      </div>
+    </div>
+
+    <!-- Right Sidebar: Info Panel -->
+    <div class="info-panel">
+      <h2>Component Info</h2>
+      <p>Select a node to see details.</p>
+    </div>
+  </div>
+
+  <script>
+    // Utility to create ID-friendly names
+    function makeIdName(name) {
+      return name.replace(/[()]/g, '').replace(/\s+/g, '-');
+    }
+    
+    // Dummy base scores (0-100 scale, 50 is neutral)
+    const baseScores = {
+      "Organic amendments": 0, "Occasional tillage": 0,
+      "Cover crops (soil health)": 0, "Cover crops (biodiversity)": 0,
+      "Soil organic matter": 50, "Crop yield": 50
+    };
+    
+    // Dummy edges and weights (for demonstration)
+    const edges = [
+      {source: "Organic amendments", target: "Soil organic matter", weight: 10},
+      {source: "Occasional tillage", target: "Soil organic matter", weight: 5},
+      {source: "Cover crops (soil health)", target: "Soil organic matter", weight: 7},
+      {source: "Cover crops (biodiversity)", target: "Crop yield", weight: 8}
+    ];
+    
+    // Update node score indicators based on scores
+    function updateScoreIndicators(scores) {
+      for (let node in scores) {
+        const score = scores[node];
+        const hue = (score / 100) * 120; // 0 = red, 120 = green
+        const color = `hsl(${hue}, 70%, 50%)`;
+        const circle = document.querySelector(`#node-${makeIdName(node)} .score-indicator`);
+        if (circle) { circle.setAttribute("fill", color); }
+      }
+    }
+    updateScoreIndicators(baseScores);
+    
+    // Calculate new scores based on selected management options (dummy logic)
+    function calculateScores(selectedOptions) {
+      const newScores = { ...baseScores };
+      selectedOptions.forEach(option => {
+        edges.forEach(edge => {
+          if (edge.source === option) {
+            newScores[edge.target] += edge.weight;
+          }
+        });
+      });
+      return newScores;
+    }
+    
+    // Apply highlights to nodes and links based on selected options
+    function applyHighlights(selectedOptions) {
+      document.querySelectorAll('.node').forEach(nodeEl => {
+        nodeEl.classList.remove('highlight', 'highlight-secondary');
+      });
+      document.querySelectorAll('.link').forEach(linkEl => {
+        linkEl.classList.remove('highlight');
+      });
+      if (selectedOptions.length === 0) return;
+      selectedOptions.forEach(opt => {
+        const nodeEl = document.querySelector(`#node-${makeIdName(opt)}`);
+        if (nodeEl) { nodeEl.classList.add('highlight'); }
+        edges.filter(e => e.source === opt).forEach(e => {
+          const linkEl = document.querySelector(`#link-${makeIdName(e.source)}-${makeIdName(e.target)}`);
+          if (linkEl) { linkEl.classList.add('highlight'); }
+        });
+      });
+    }
+    
+    // Update overall system impact (dummy logic)
+    function updateOverallImpact(selectedOptions) {
+      const impactDisplay = document.querySelector('.system-impact');
+      const metrics = impactDisplay.querySelectorAll('.metric .value');
+      if (selectedOptions.length === 0) {
+        metrics.forEach(m => m.textContent = "Neutral");
+      } else {
+        metrics.forEach(m => m.textContent = "Slight Decrease");
+      }
+    }
+    
+    // Handle management option selection (single-select for this demo)
+    const managementCheckboxes = document.querySelectorAll('.sidebar-left input[type="checkbox"]');
+    managementCheckboxes.forEach(cb => {
+      cb.addEventListener('change', () => {
+        // Only one checkbox can be selected at a time
+        if (cb.checked) {
+          managementCheckboxes.forEach(other => {
+            if (other !== cb) { other.checked = false; }
+          });
+        }
+        const selected = Array.from(managementCheckboxes).filter(c => c.checked).map(c => c.value);
+        applyHighlights(selected);
+        const newScores = calculateScores(selected);
+        updateScoreIndicators(newScores);
+        updateOverallImpact(selected);
+      });
+    });
+    
+    // Info panel: display details when a node is clicked
+    const nodeInfo = {
+      "Organic amendments": {
+        background: "Organic amendments (compost, FYM) boost soil organic matter and nutrient availability.",
+        csc: "CSC trials show up to 15% yield increase with organic amendments.",
+        measurement: "Soil carbon tests and structure observation.",
+        references: "Smith et al. 2020; DOI:10.xxx/soilstudy"
+      },
+      "Soil organic matter": {
+        background: "Higher soil organic matter improves water retention and nutrient supply.",
+        csc: "Observed improvements in drought resilience and nutrient cycling.",
+        measurement: "Measured via soil carbon tests.",
+        references: "Johnson 2019"
+      },
+      "Crop yield": {
+        background: "Crop yield reflects the overall productivity of the system.",
+        csc: "Yield increases are linked to improved soil and plant health.",
+        measurement: "Standard yield measurements in field trials.",
+        references: "Doe 2021"
+      }
+    };
+    document.querySelectorAll('.node').forEach(nodeEl => {
+      nodeEl.addEventListener('click', () => {
+        const name = nodeEl.getAttribute('data-name');
+        const info = nodeInfo[name] || { background: "Info coming soon." };
+        const panel = document.querySelector('.info-panel');
+        let html = `<h2>${name}</h2>`;
+        html += `<p><strong>Background: </strong>${info.background}</p>`;
+        if(info.csc) { html += `<p><strong>CSC Results: </strong>${info.csc}</p>`; }
+        if(info.measurement) { html += `<p><strong>Measurement: </strong>${info.measurement}</p>`; }
+        if(info.references) { html += `<p><strong>References: </strong>${info.references}</p>`; }
+        panel.innerHTML = html;
+      });
+    });
+    
+    // Initialize: no option selected
+  </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bio4Ag Toolbox</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="app-header">
+    <h1>Bio4Ag Toolbox</h1>
+    <p class="subtitle">Sustainable Agriculture Insights Dashboard</p>
+  </header>
+
+  <!-- Card Grid Section -->
+  <main class="card-grid">
+    <!-- Crop Productivity Card -->
+    <section class="card" id="card-crop" onclick="openCard('crop')">
+      <div class="card-content">
+        <!-- Icon/Image for Crop (placeholder) -->
+        <div class="card-icon crop-icon"></div>
+        <h2>Crop Productivity</h2>
+        <p>Overview: Latest yield and crop health metrics.</p>
+        <button class="learn-more" onclick="openCard('crop'); event.stopPropagation();">
+          Learn More
+        </button>
+      </div>
+    </section>
+
+    <!-- Soil Health Card -->
+    <section class="card" id="card-soil" onclick="openCard('soil')">
+      <div class="card-content">
+        <div class="card-icon soil-icon"></div>
+        <h2>Soil Health</h2>
+        <p>Overview: Soil quality, nutrients, and organic matter.</p>
+        <button class="learn-more" onclick="openCard('soil'); event.stopPropagation();">
+          Learn More
+        </button>
+      </div>
+    </section>
+
+    <!-- Biodiversity Card -->
+    <section class="card" id="card-biodiversity" onclick="openCard('biodiversity')">
+      <div class="card-content">
+        <div class="card-icon biodiversity-icon"></div>
+        <h2>Biodiversity</h2>
+        <p>Overview: On-farm biodiversity and habitat metrics.</p>
+        <button class="learn-more" onclick="openCard('biodiversity'); event.stopPropagation();">
+          Learn More
+        </button>
+      </div>
+    </section>
+
+    <!-- Water Management Card -->
+    <section class="card" id="card-water" onclick="openCard('water')">
+      <div class="card-content">
+        <div class="card-icon water-icon"></div>
+        <h2>Water Management</h2>
+        <p>Overview: Water usage, irrigation, and quality.</p>
+        <button class="learn-more" onclick="openCard('water'); event.stopPropagation();">
+          Learn More
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Detail Modal/Expanded Sections (hidden by default) -->
+
+  <!-- Crop Productivity Detail -->
+  <section class="card-detail hidden" id="detail-crop">
+    <div class="detail-content">
+      <button class="close-btn" onclick="closeCard('crop')">&times;</button>
+      <h3>Crop Productivity Details</h3>
+      <!-- Filters for Crop (example) -->
+      <div class="filters">
+        <label>Year:
+          <select id="crop-year-select">
+            <option>2023</option>
+            <option>2024</option>
+            <option>2025</option>
+          </select>
+        </label>
+        <!-- Additional filters can be added here -->
+      </div>
+      <!-- Crop Dashboard (placeholder for charts) -->
+      <div class="dashboard">
+        <!-- Example chart placeholder -->
+        <h4>Yield Trend</h4>
+        <div id="crop-yield-chart">[Yield Chart]</div>
+        <!-- More charts/metrics... -->
+      </div>
+      <!-- Interactive Field Map for Crop -->
+      <div class="map-container">
+        <h4>Field Map - Yield</h4>
+        <div id="map-crop" class="map">[Interactive Field Map]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Soil Health Detail -->
+  <section class="card-detail hidden" id="detail-soil">
+    <div class="detail-content">
+      <button class="close-btn" onclick="closeCard('soil')">&times;</button>
+      <h3>Soil Health Details</h3>
+      <div class="filters">
+        <label>Field:
+          <select id="soil-field-select">
+            <option>Field A</option>
+            <option>Field B</option>
+          </select>
+        </label>
+        <!-- Additional soil filters... -->
+      </div>
+      <div class="dashboard">
+        <h4>Soil Nutrient Levels</h4>
+        <div id="soil-nutrients-chart">[Soil Nutrients Chart]</div>
+        <!-- More charts... -->
+      </div>
+      <div class="map-container">
+        <h4>Field Map - Soil Health</h4>
+        <div id="map-soil" class="map">[Interactive Soil Map]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Biodiversity Detail -->
+  <section class="card-detail hidden" id="detail-biodiversity">
+    <div class="detail-content">
+      <button class="close-btn" onclick="closeCard('biodiversity')">&times;</button>
+      <h3>Biodiversity Details</h3>
+      <div class="filters">
+        <label>Region:
+          <select id="biodiversity-region-select">
+            <option>North</option>
+            <option>South</option>
+          </select>
+        </label>
+      </div>
+      <div class="dashboard">
+        <h4>Species Count</h4>
+        <div id="species-count-chart">[Species Count Chart]</div>
+        <!-- More charts... -->
+      </div>
+      <div class="map-container">
+        <h4>Field Map - Habitats</h4>
+        <div id="map-biodiversity" class="map">[Interactive Biodiversity Map]</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Water Management Detail -->
+  <section class="card-detail hidden" id="detail-water">
+    <div class="detail-content">
+      <button class="close-btn" onclick="closeCard('water')">&times;</button>
+      <h3>Water Management Details</h3>
+      <div class="filters">
+        <label>Season:
+          <select id="water-season-select">
+            <option>Spring</option>
+            <option>Summer</option>
+            <option>Fall</option>
+          </select>
+        </label>
+      </div>
+      <div class="dashboard">
+        <h4>Water Usage Over Time</h4>
+        <div id="water-usage-chart">[Water Usage Chart]</div>
+        <!-- More charts... -->
+      </div>
+      <div class="map-container">
+        <h4>Field Map - Irrigation</h4>
+        <div id="map-water" class="map">[Interactive Water Map]</div>
+      </div>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>

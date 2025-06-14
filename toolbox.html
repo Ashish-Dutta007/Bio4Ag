@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bio4Ag Toolbox – Merged Goals & Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* Basic Reset & Body Style */
+    * {
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #fff;
+      color: #333;
+    }
+    .header-top {
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5em 1em;
+      border-bottom: 1px solid #ccc;
+    }
+    .logo-left, .logo-right {
+      width: 120px; 
+      height: 50px; 
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #ccc; /* placeholder border for logos */
+      font-weight: bold;
+      color: #666;
+    }
+    .header-title {
+      text-align: center;
+      flex: 1;
+      margin: 0 1em;
+    }
+    .header-title h1 {
+      font-size: 1.2rem;
+      line-height: 1.2;
+      text-align: center;
+      margin: 0;
+    }
+    .green-text {
+      color: #2e7d32;
+      font-weight: bold;
+    }
+
+    /* ---- Navigation Bar ---- */
+    .nav-bar {
+      background: #4caf50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.3em 0;
+    }
+    .nav-container {
+      display: flex;
+      gap: 0.5em;
+    }
+    .nav-link {
+      background: linear-gradient(#66bb6a, #388e3c);
+      color: #fff;
+      text-decoration: none;
+      padding: 0.5em 1em;
+      border-radius: 4px;
+      font-weight: bold;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+      transition: background 0.3s ease;
+    }
+    .nav-link:hover {
+      background: linear-gradient(#81c784, #2e7d32);
+    }
+
+    /* ---- Toolbox Page Content ---- */
+    .toolbox-container {
+      max-width: 1200px;
+      margin: 1em auto;
+      padding: 0 1em;
+    }
+    .toolbox-container h2 {
+      color: #2e7d32;
+      margin-bottom: 0.5em;
+    }
+    .toolbox-container p {
+      margin-bottom: 1em;
+      line-height: 1.4;
+    }
+    /* Example styling for the management options table or interactive elements */
+    .management-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 1em;
+    }
+    .management-table th, .management-table td {
+      border: 1px solid #ccc;
+      padding: 0.5em;
+      vertical-align: top;
+    }
+    .management-table th {
+      background: #e8f5e9;
+      color: #2e7d32;
+      text-align: left;
+    }
+    .management-table input[type="checkbox"] {
+      margin-right: 0.4em;
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+
+
+    /* Top Bar */
+    header {
+      background: #2e7d32;
+      color: #fff;
+      padding: 1em;
+    }
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    .top-bar h1 {
+      margin: 0;
+      font-size: 1.4rem;
+    }
+    .top-filters {
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+    .top-filters label {
+      font-weight: bold;
+    }
+    .top-filters select {
+      padding: 0.3em;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    /* Main Layout: 3 columns */
+    .toolbox-layout {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      max-width: 1400px;
+      margin: 1em auto;
+      padding: 0 1em;
+      gap: 1em;
+    }
+
+    /* LEFT COL: Single table with row spans */
+    .left-col {
+      flex: 0 0 450px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 1em;
+      overflow-y: auto; 
+      max-height: 80vh;
+    }
+    .left-col table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .left-col th {
+      background: #e8f5e9;
+      text-align: left;
+      padding: 0.5em;
+      border: 1px solid #ccc;
+      color: #2e7d32;
+      font-size: 0.95rem;
+    }
+    .left-col td {
+      border: 1px solid #ccc;
+      padding: 0.5em;
+      vertical-align: top;
+      font-size: 0.9rem;
+    }
+    .goal-link {
+      color: #2e7d32;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .goal-link:hover {
+      text-decoration: underline;
+    }
+    .management-label {
+      color: #333;
+      font-weight: bold;
+    }
+    label.option-label {
+      cursor: pointer;
+    }
+    label.option-label input[type="checkbox"] {
+      margin-right: 0.4em;
+      transform: scale(1.1);
+      cursor: pointer;
+    }
+    .pdf-icon {
+      margin-left: 0.3em;
+      text-decoration: none;
+      color: #2e7d32;
+      font-weight: bold;
+    }
+
+    /* MIDDLE COL: 3 panels of Effects */
+    .middle-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1em;
+    }
+    .effect-panel {
+      background: #f7f7f7;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 1em;
+      flex: 1;
+      min-height: 150px;
+    }
+    .effect-panel h2 {
+      margin-bottom: 0.5em;
+      font-size: 1rem;
+      color: #2e7d32;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 0.3em;
+    }
+    .effect-item {
+      display: block;
+      margin: 0.3em 0;
+      padding: 0.2em 0.4em;
+      border-radius: 4px;
+      background: rgba(200,200,200,0.2); /* semi-transparent */
+      opacity: 0.4; /* subdued */
+      transition: all 0.3s ease;
+      color: #000;
+      font-size: 0.9rem;
+    }
+    /* When highlighted positive/negative */
+    .effect-item.positive {
+      background: #2e7d32;
+      color: #fff;
+      opacity: 1;
+    }
+    .effect-item.negative {
+      background: #c62828;
+      color: #fff;
+      opacity: 1;
+    }
+
+    /* RIGHT COL: System Impact with horizontal bars */
+    .right-col {
+      flex: 0 0 250px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 1em;
+      max-height: 80vh;
+    }
+    .right-col h2 {
+      color: #2e7d32;
+      margin-bottom: 1em;
+    }
+    .impact-row {
+      margin-bottom: 1em;
+    }
+    .impact-label {
+      margin-bottom: 0.2em;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+    .impact-bar {
+      position: relative;
+      width: 100%; 
+      height: 20px; 
+      background: linear-gradient(to right, #2e7d32, #eb5504); /* left=green, right=orange/red */
+      border-radius: 10px;
+      margin: 0.3em 0;
+    }
+    .impact-marker {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: bold;
+      color: #000;
+      left: 50%; /* default middle for demo */
+    }
+    /* Overall Score style */
+    .overall-divider {
+      border-top: 1px solid #ccc;
+      margin: 1em 0;
+    }
+    .overall-label {
+      font-weight: bold;
+      margin-bottom: 0.2em;
+    }
+
+    /* Responsive tweak */
+    @media (max-width: 900px) {
+      .toolbox-layout {
+        flex-direction: column;
+      }
+      .left-col, .middle-col, .right-col {
+        max-width: 100%;
+        flex: none;
+        margin-bottom: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+    <div class="header-top">
+        <div class="logo-left">Bio4Ag Logo</div>
+        <div class="header-title">
+          <h1>
+            <span class="green-text">Bio</span>diversity
+            <span class="green-text">4Ag</span>riculture:
+            lessons from the Centre for Sustainable Cropping
+          </h1>
+        </div>
+        <div class="logo-right">
+          <a href="https://sefari.scot/" target="_blank">
+            <img src="images/sefari_logo.png" alt="Sefari Logo" style="max-width:100%; max-height:100%;">
+          </a>
+        </div>
+      </div>
+    
+      <!-- Reused Navigation Bar -->
+      <nav class="nav-bar">
+        <div class="nav-container">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="toolbox.html" class="nav-link">Toolbox</a>
+          <a href="resources.html" class="nav-link">Resources</a>
+          <a href="datasets.html" class="nav-link">Datasets</a>
+          <a href="contact.html" class="nav-link">Contact Us</a>
+        </div>
+      </nav>
+
+  <!-- Top Bar -->
+  <header>
+    <div class="top-bar">
+      <h1>Bio4Ag Toolbox</h1>
+      <div class="top-filters">
+        <label for="cropSelect">Crop of interest:</label>
+        <select id="cropSelect">
+          <option value="all">All (generic)</option>
+          <option value="wheat">Wheat</option>
+          <option value="barley">Barley</option>
+          <option value="beans">Beans</option>
+          <option value="potato">Potatoes</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="toolbox-layout">
+    <!-- LEFT COL: Table with row spans for Goal & Management -->
+    <div class="left-col">
+      <table>
+        <thead>
+          <tr>
+            <th>Goal</th>
+            <th>Management</th>
+            <th>Option</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- SOIL HEALTH (4 rows total) -->
+          <tr>
+            <!-- Rowspan=4 for Soil Health -->
+            <td rowspan="4">
+              <a href="soil.html" class="goal-link">Soil health</a>
+            </td>
+            <!-- Rowspan=2 for Organic amendment -->
+            <td rowspan="2" class="management-label">Organic amendment</td>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="compost"
+                       data-pos="organic-matter-content"
+                       data-neg="">
+                compost
+              </label>
+              <a href="notes/compost_note.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="crop-residue"
+                       data-pos="organic-matter-content"
+                       data-neg="">
+                crop residue
+              </label>
+              <a href="notes/crop_residue.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <!-- Rowspan=2 for Cultivations -->
+            <td rowspan="2" class="management-label">Cultivations</td>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="occasional-till"
+                       data-pos=""
+                       data-neg="bulk-density">
+                occasional till
+              </label>
+              <a href="notes/occasional_till.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="no-till"
+                       data-pos="earthworm-abundance,microbial-diversity"
+                       data-neg="in-field-weeds">
+                no-till/direct drill
+              </label>
+              <a href="notes/no_till.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+
+          <!-- BIODIVERSITY (4 rows total) -->
+          <tr>
+            <!-- Rowspan=4 for Biodiversity -->
+            <td rowspan="4">
+              <a href="biodiversity.html" class="goal-link">Biodiversity</a>
+            </td>
+            <!-- Rowspan=2 for IPM strategies -->
+            <td rowspan="2" class="management-label">IPM strategies</td>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="biocontrol"
+                       data-pos="pollinators,natural-enemies"
+                       data-neg="">
+                biocontrol
+              </label>
+              <a href="notes/biocontrol.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="targeted-weed"
+                       data-pos="in-field-weeds,natural-enemies"
+                       data-neg="yield">
+                targeted weed management
+              </label>
+              <a href="notes/targeted_weed.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <!-- Rowspan=2 for Habitat/resource provision -->
+            <td rowspan="2" class="management-label">Habitat/resource provision</td>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="diversified-margins"
+                       data-pos="field-margins"
+                       data-neg="">
+                diversified field margins
+              </label>
+              <a href="notes/diversified_margins.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="semi-natural-habitats"
+                       data-pos="pollinators,natural-enemies"
+                       data-neg="">
+                semi-natural habitats
+              </label>
+              <a href="notes/semi_natural.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+
+          <!-- NUTRIENT MANAGEMENT (5 rows total) -->
+          <tr>
+            <!-- Rowspan=5 for Nutrient management -->
+            <td rowspan="5">
+              <a href="nutrient.html" class="goal-link">Nutrient management</a>
+            </td>
+            <!-- Rowspan=3 for Increasing efficiency -->
+            <td rowspan="3" class="management-label">Increasing efficiency</td>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="nutrient-budgeting"
+                       data-pos="crop-health,yield"
+                       data-neg="">
+                nutrient budgeting/soil testing
+              </label>
+              <a href="notes/nutrient_budgeting.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="timing-fertiliser"
+                       data-pos="crop-health,yield"
+                       data-neg="">
+                timing of fertiliser inputs
+              </label>
+              <a href="notes/timing_fertiliser.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="legume-companion"
+                       data-pos="yield,soil-nutrient-retention"
+                       data-neg="">
+                legume companion crops
+              </label>
+              <a href="notes/legume_companion.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <!-- Rowspan=2 for Reducing losses -->
+            <td rowspan="2" class="management-label">Reducing losses</td>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="cover-crops"
+                       data-pos="aggregate-stability,water-holding-capacity,organic-matter-content"
+                       data-neg="">
+                cover crops
+              </label>
+              <a href="notes/cover_crops.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label class="option-label">
+                <input type="checkbox"
+                       data-option="buffers"
+                       data-pos="field-margins"
+                       data-neg="">
+                buffers
+              </label>
+              <a href="notes/buffers.pdf" target="_blank" class="pdf-icon">📄</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- MIDDLE COL: 3 panels of Effects -->
+    <div class="middle-col">
+      <div class="effect-panel">
+        <h2>Direct Effects</h2>
+        <span class="effect-item" id="aggregate-stability">aggregate stability</span>
+        <span class="effect-item" id="water-holding-capacity">water holding capacity</span>
+        <span class="effect-item" id="bulk-density">bulk density</span>
+        <span class="effect-item" id="organic-matter-content">organic matter content</span>
+        <span class="effect-item" id="litter-decomposition">litter decomposition</span>
+        <span class="effect-item" id="soil-nutrient-retention">soil nutrient retention</span>
+        <span class="effect-item" id="microbial-diversity">microbial diversity</span>
+        <span class="effect-item" id="earthworm-abundance">earthworm abundance</span>
+        <span class="effect-item" id="pollinators">pollinators</span>
+        <span class="effect-item" id="natural-enemies">natural enemies</span>
+        <span class="effect-item" id="in-field-weeds">in-field weeds</span>
+        <span class="effect-item" id="weed-seedbank">weed seedbank</span>
+        <span class="effect-item" id="field-margins">field margins</span>
+        <span class="effect-item" id="crop-health">crop health</span>
+        <span class="effect-item" id="yield">yield</span>
+      </div>
+
+      <div class="effect-panel">
+        <h2>1° In-field Effects</h2>
+        <!-- Repeat same 15 for demonstration -->
+        <span class="effect-item" id="d1-aggregate-stability">aggregate stability</span>
+        <span class="effect-item" id="d1-water-holding-capacity">water holding capacity</span>
+        <span class="effect-item" id="d1-bulk-density">bulk density</span>
+        <span class="effect-item" id="d1-organic-matter-content">organic matter content</span>
+        <span class="effect-item" id="d1-litter-decomposition">litter decomposition</span>
+        <span class="effect-item" id="d1-soil-nutrient-retention">soil nutrient retention</span>
+        <span class="effect-item" id="d1-microbial-diversity">microbial diversity</span>
+        <span class="effect-item" id="d1-earthworm-abundance">earthworm abundance</span>
+        <span class="effect-item" id="d1-pollinators">pollinators</span>
+        <span class="effect-item" id="d1-natural-enemies">natural enemies</span>
+        <span class="effect-item" id="d1-in-field-weeds">in-field weeds</span>
+        <span class="effect-item" id="d1-weed-seedbank">weed seedbank</span>
+        <span class="effect-item" id="d1-field-margins">field margins</span>
+        <span class="effect-item" id="d1-crop-health">crop health</span>
+        <span class="effect-item" id="d1-yield">yield</span>
+      </div>
+
+      <div class="effect-panel">
+        <h2>2° In-field Effects</h2>
+        <!-- Repeat same 15 for demonstration -->
+        <span class="effect-item" id="d2-aggregate-stability">aggregate stability</span>
+        <span class="effect-item" id="d2-water-holding-capacity">water holding capacity</span>
+        <span class="effect-item" id="d2-bulk-density">bulk density</span>
+        <span class="effect-item" id="d2-organic-matter-content">organic matter content</span>
+        <span class="effect-item" id="d2-litter-decomposition">litter decomposition</span>
+        <span class="effect-item" id="d2-soil-nutrient-retention">soil nutrient retention</span>
+        <span class="effect-item" id="d2-microbial-diversity">microbial diversity</span>
+        <span class="effect-item" id="d2-earthworm-abundance">earthworm abundance</span>
+        <span class="effect-item" id="d2-pollinators">pollinators</span>
+        <span class="effect-item" id="d2-natural-enemies">natural enemies</span>
+        <span class="effect-item" id="d2-in-field-weeds">in-field weeds</span>
+        <span class="effect-item" id="d2-weed-seedbank">weed seedbank</span>
+        <span class="effect-item" id="d2-field-margins">field margins</span>
+        <span class="effect-item" id="d2-crop-health">crop health</span>
+        <span class="effect-item" id="d2-yield">yield</span>
+      </div>
+    </div>
+
+    <!-- RIGHT COL: System Impact with horizontal bars -->
+    <div class="right-col">
+      <h2>Systems Impact</h2>
+
+      <div class="impact-row">
+        <div class="impact-label">GHG emissions</div>
+        <div class="impact-bar" id="bar-ghg">
+          <div class="impact-marker">X</div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <div class="impact-label">Biodiversity</div>
+        <div class="impact-bar" id="bar-biodiversity">
+          <div class="impact-marker">X</div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <div class="impact-label">Carbon stocks</div>
+        <div class="impact-bar" id="bar-carbon">
+          <div class="impact-marker">X</div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <div class="impact-label">Crop yield/quality</div>
+        <div class="impact-bar" id="bar-yield">
+          <div class="impact-marker">X</div>
+        </div>
+      </div>
+
+      <div class="impact-row">
+        <div class="impact-label">Financial margins</div>
+        <div class="impact-bar" id="bar-financial">
+          <div class="impact-marker">X</div>
+        </div>
+      </div>
+
+      <div class="overall-divider"></div>
+      <div class="impact-row">
+        <div class="overall-label">Overall Score</div>
+        <div class="impact-bar" id="bar-overall">
+          <div class="impact-marker">X</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    // Single-select approach
+    const checkboxes = document.querySelectorAll('input[type="checkbox"][data-option]');
+    // We'll store references for all 3 sets of 15 indicators
+    const effectIDs = [
+      "aggregate-stability","water-holding-capacity","bulk-density","organic-matter-content","litter-decomposition",
+      "soil-nutrient-retention","microbial-diversity","earthworm-abundance","pollinators","natural-enemies",
+      "in-field-weeds","weed-seedbank","field-margins","crop-health","yield"
+    ];
+    // For convenience, store references in an object
+    const effectItems = {};
+    effectIDs.forEach(id => {
+      // direct
+      effectItems[id] = document.getElementById(id);
+      // 1° in-field
+      effectItems[`d1-${id}`] = document.getElementById(`d1-${id}`);
+      // 2° in-field
+      effectItems[`d2-${id}`] = document.getElementById(`d2-${id}`);
+    });
+
+    const bars = {
+      ghg: document.getElementById("bar-ghg"),
+      biodiversity: document.getElementById("bar-biodiversity"),
+      carbon: document.getElementById("bar-carbon"),
+      yield: document.getElementById("bar-yield"),
+      financial: document.getElementById("bar-financial"),
+      overall: document.getElementById("bar-overall")
+    };
+
+    checkboxes.forEach(cb => {
+      cb.addEventListener("change", handleSingleCheck);
+    });
+
+    function handleSingleCheck(e) {
+      // If user just checked a box, uncheck all others
+      if(e.target.checked) {
+        checkboxes.forEach(other => {
+          if(other !== e.target) {
+            other.checked = false;
+          }
+        });
+      }
+      updateEffects();
+      updateSystemImpact();
+    }
+
+    function updateEffects() {
+      // Reset all effect items to neutral
+      Object.values(effectItems).forEach(item => {
+        item.classList.remove("positive","negative");
+      });
+
+      // Find which single checkbox is checked (if any)
+      const selected = [...checkboxes].find(cb => cb.checked);
+      if(selected) {
+        const posList = (selected.getAttribute("data-pos") || "").split(",");
+        const negList = (selected.getAttribute("data-neg") || "").split(",");
+
+        posList.forEach(p => highlightEffect(p.trim(),"positive"));
+        negList.forEach(n => highlightEffect(n.trim(),"negative"));
+      }
+    }
+
+    function highlightEffect(effectName, className) {
+      // highlight in direct, 1°, and 2° columns
+      if(effectItems[effectName]) {
+        effectItems[effectName].classList.add(className);
+      }
+      if(effectItems[`d1-${effectName}`]) {
+        effectItems[`d1-${effectName}`].classList.add(className);
+      }
+      if(effectItems[`d2-${effectName}`]) {
+        effectItems[`d2-${effectName}`].classList.add(className);
+      }
+    }
+
+    function updateSystemImpact() {
+      // For each bar, place X at random left offset from 0% to ~85% for demonstration
+      Object.keys(bars).forEach(key => {
+        const bar = bars[key];
+        const marker = bar.querySelector(".impact-marker");
+        const randPercent = Math.floor(Math.random() * 85);
+        marker.style.left = randPercent + "%";
+      });
+    }
+
+    // Initialize
+    updateEffects();
+    updateSystemImpact();
+  </script>
+</body>
+</html>
